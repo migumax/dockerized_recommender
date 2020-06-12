@@ -17,14 +17,29 @@ To run the API run `python api.py <port_number>`
 
 ### Endpoints
     ### /train (GET)
+    Train the recommender model, serialize it into a pickle dump, calculate model metrics and serialize user&item dictionaries.
 
     ### /wipe (GET)
+    Remove serialized model and all dirs with auxiliary data.
 
     ### /items_to_user (POST)
+    Recommend an array of items to a user. Accepts arguments:
+        - user_id
+        - nrec_items: number of items to recommend (gets fetch from model's 'predict')
+        - show_known: show previously purchased/liked items by this user
+        Might be used for personalised recommendations on the user's HOME SCREEN.
 
     ### /users_to_item (POST)
+    Recommend array of users to a particular item. Accepts arguments:
+        - item_id
+        - len_users: number of users to recommend
+        Might be used for TARGETED PROMO OFFERS.
 
     ### /items_to_item (POST)
+    Recommend array of items to a particular item.  Accepts arguments:
+        - item_id
+        - n_items: number of items to recommnd
+        Might be used for "YOU MAY ALSO LIKE"-type recommendations.
 
 
 
@@ -42,3 +57,15 @@ It's somehing I often do at work and aim to achieve with this academic reasearch
 
 ## Sending real requests to recommender
 You can send requests to the recommnder model either using Python `requests` module or straight from the command line using `CURL`.
+See files:
+- mock_requests.sh
+- mock_requests.py
+
+Examples:
+- POST:
+    - `curl -X POST "http://127.0.0.1:8891/items_to_user" -H "Content-Type: application/json" -d '{"user_id": "12947", "nrec_items": "10", "show_known": "True"}'`
+    - `curl -X POST "http://127.0.0.1:8891/users_to_item" -H "Content-Type: application/json" -d '{"item_id": "22386", "len_users": "15"}'`
+    - `curl -X POST "http://127.0.0.1:8891/items_to_item" -H "Content-Type: application/json" -d '{"item_id": "22466", "n_items": "11"}'`
+- GET:
+    - `curl -X GET "http://127.0.0.1:8891/wipe" `
+    - `curl -X GET "http://127.0.0.1:8891/train" `
