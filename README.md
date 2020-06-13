@@ -53,7 +53,7 @@ It's somehing I often do at work and aim to achieve with this academic reasearch
         `docker build -t "recommender" -f Dockerfile . `
 
 2. Run docker container from image
-        `docker run -p 9999:9999 recommender -p`
+        `docker run -p 8891:8891 recommender`
 
 ## Sending real requests to recommender
 You can send requests to the recommnder model either using Python `requests` module or straight from the command line using `CURL`.
